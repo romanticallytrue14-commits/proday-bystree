@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПРОДАЙ БЫСТРЕЕ PRO</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 35px 20px;
+  background: linear-gradient(135deg,#172554,#263c80);
+}
+
+h1 {
+  color: #ff9f1c;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+header p {
+  color: #cbd5e1;
+}
+
+.container {
+  max-width: 650px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #475569;
+  border-radius: 9px;
+  font-size: 16px;
+  background: #f8fafc;
+  color: #111827;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  background: #ff9f1c;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 22px;
+  cursor: pointer;
+}
+
+button:active {
+  background: #f97316;
+}
+
+.result {
+  background: #0f172a;
+  padding: 18px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🚀 ПРОДАЙ БЫСТРЕЕ PRO</h1>
+<p>Конструктор объявлений для Авито и ВКонтакте</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>📦 Создайте объявление</h2>
+
+<label>Категория товара</label>
+<select id="category">
+<option>Смартфон</option>
+<option>Автомобиль</option>
+<option>Мебель</option>
+<option>Бытовая техника</option>
+<option>Недвижимость</option>
+<option>Другой товар</option>
+</select>
+
+<label>Название товара</label>
+<input id="product" placeholder="Например: iPhone 13">
+
+<label>Модель или характеристики</label>
+<input id="model" placeholder="Например: 128 ГБ, чёрный">
+
+<label>Состояние</label>
+<select id="condition">
+<option>Новое</option>
+<option>Отличное</option>
+<option>Хорошее</option>
+<option>Удовлетворительное</option>
+</select>
+
+<label>Цена в рублях</label>
+<input id="price" type="number" min="0" placeholder="Например: 25000">
+
+<label>Город</label>
+<input id="city" placeholder="Например: Ярославль">
+
+<label>Дополнительная информация</label>
+<textarea id="details" placeholder="Комплектация, недостатки, особенности товара"></textarea>
+
+<button onclick="generate()">🚀 Создать объявление</button>
+
+</div>
+
+<div class="card">
+
+<h2>📝 Готовое объявление</h2>
+
+<div id="result" class="result">
+Заполните поля выше и нажмите кнопку создания.
+</div>
+
+<button onclick="copyText()">📋 Скопировать объявление</button>
+
+</div>
+
+</div>
+
+<footer>
+ПРОДАЙ БЫСТРЕЕ PRO © 2026
+<br>
+Помощник для создания объявлений
+</footer>
+
+<script>
+
+function generate() {
+
+const category = document.getElementById("category").value;
+const product = document.getElementById("product").value.trim();
+const model = document.getElementById("model").value.trim();
+const condition = document.getElementById("condition").value;
+const price = document.getElementById("price").value;
+const city = document.getElementById("city").value.trim();
+const details = document.getElementById("details").value.trim();
+
+if (!product) {
+  alert("Укажите название товара");
+  return;
+}
+
+const title = product + (model ? " — " + model : "");
+
+let text = title + "\n\n";
+
+text += "📦 Продаю: " + product + "\n";
+
+text += "Категория: " + category + "\n";
+
+if (model) {
+  text += "Характеристики: " + model + "\n";
+}
+
+text += "Состояние: " + condition + "\n";
+
+if (details) {
+  text += "\n✅ Дополнительная информация:\n" + details + "\n";
+}
+
+if (price !== "") {
+  text += "\n💰 Цена: " + Number(price).toLocaleString("ru-RU") + " ₽\n";
+}
+
+if (city) {
+  text += "📍 Город: " + city + "\n";
+}
+
+text += "\n📩 Напишите в сообщения, если хотите уточнить детали.";
+
+document.getElementById("result").textContent = text;
+
+}
+
+async function copyText() {
+
+const text = document.getElementById("result").innerText;
+
+if (text.includes("Заполните поля выше")) {
+  alert("Сначала создайте объявление");
+  return;
+}
+
+try {
+  await navigator.clipboard.writeText(text);
+  alert("Объявление скопировано!");
+} catch (error) {
+  alert("Не удалось скопировать автоматически. Выделите текст и скопирную.");
+}
+
+}
+</script>
+
+</body>
+</html> 
